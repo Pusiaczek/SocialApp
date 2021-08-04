@@ -7,7 +7,7 @@ let axiosConfig = {
     }
 }
 
-const getAllPosts = async () => {
+const getDefaultPosts = async () => {
     try {
         const response = await axios.post(
             'https://akademia108.pl/api/social-app/post/latest',
@@ -19,4 +19,4 @@ const getAllPosts = async () => {
     }
 }
 
-export default getAllPosts;
+export default getDefaultPosts;

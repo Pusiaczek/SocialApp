@@ -1,6 +1,6 @@
-import styles from './SocialPostItem.module.css';
+import styles from './PostItem.module.css';
 
-function SocialPostItem(props) {
+function PostItem(props) {
     const months = ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'];
     const postDate = new Date(props.item.created_at)
 
@@ -16,7 +16,6 @@ function SocialPostItem(props) {
                     {/* <span className={styles.likeBtn}>Like IT!</span><span className={styles.likeCounter}>{props.item.likes.length} <i className="fas fa-thumbs-up thumbsup"></i></span> */}
                     <i className="fas fa-thumbs-up thumbsup"></i>
                     <span className={styles.likeCounter}>
-                        
                         {props.item.likes.length}
                     </span>
                 </div>
@@ -28,7 +27,7 @@ function SocialPostItem(props) {
     )
 }
 
-export default SocialPostItem;
+export default PostItem;
 
 
 // content: "Hi, my name is John ;)"
