@@ -6,9 +6,9 @@ import authReducer from '../Reducers/authReducer';
 const AuthContext = React.createContext({
     isLoggedIn: false,
     onLogout: () => { },
-    onLogin: (username, password) => { }
+    onLogin: ({ username, password }) => { },
+    // onCheckLogin: () => { }
 });
-
 
 
 let axiosConfig = {
@@ -19,12 +19,10 @@ let axiosConfig = {
 }
 
 
-
-
 export function AuthContextProvider(props) {
-
     const [loginAuth, dispatchLogin] = useReducer(authReducer, {
         isLoggedIn: false,
+        token: '',
     })
 
     const loginHandler = async (loginData) => {
@@ -40,14 +38,21 @@ export function AuthContextProvider(props) {
                 axiosConfig,
             )
 
-            if (response.data.jwt_token) {
-                dispatchLogin({ type: 'login', token: response.data.jwt_token })
+            if (!response.data.error) {
+                dispatchLogin({
+                    type: 'login',
+                    data: {
+                        user: loginData.username,
+                        pass: loginData.password,
+                        token: response.data.jwt_token
+                    },
+                })
             } else {
-                throw new Error('brakuja tokena');
+                throw new Error("Błąd logowania!");
             }
 
         } catch (error) {
-            console.log("error", error);
+            console.log("Napotkaliśmy na problemy: ", error);
         }
     }
 
@@ -55,16 +60,13 @@ export function AuthContextProvider(props) {
         < AuthContext.Provider value={{
             isLoggedIn: loginAuth.isLoggedIn,
             onLogout: () => { dispatchLogin({ type: 'logout' }) },
-            onLogin: loginHandler
+            onLogin: loginHandler,
+            onCheckLogin: (data) => { dispatchLogin({ type: 'locallogin', data }) }
         }}>
             {props.children}
-        </AuthContext.Provider >
+        </AuthContext.Provider>
     )
 }
-
-
-
-
 
 
 export default AuthContext;

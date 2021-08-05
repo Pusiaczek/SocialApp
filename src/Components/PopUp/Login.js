@@ -12,7 +12,7 @@ function Login() {
 
     const submitLogin = (e) => {
         e.preventDefault();
-        console.log("submit login form");
+        // console.log("submit login form");
 
         const loginData = {
             username: usernameInputRef.current.value,

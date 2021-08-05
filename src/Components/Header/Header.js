@@ -17,15 +17,14 @@ const LoggedOutHeaderPart = () => {
 
 
 
-
-
 function Header() {
     const context = useContext(AuthContext);
 
     const LoggedInHeaderPart = () => {
         return (
             <li>
-                <button onClick={context.onLogout}>Logout</button>
+                <Link to='' onClick={context.onLogout}>Logout</Link>
+                {/* <a onClick={context.onLogout}>Logout</a> */}
             </li>
         )
     }

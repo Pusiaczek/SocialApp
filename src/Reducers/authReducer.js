@@ -1,20 +1,27 @@
 function authReducer(state, action) {
     switch (action.type) {
         case 'login':
+            localStorage.setItem('user', action.data.user);
+            localStorage.setItem('token', action.data.token);
 
-            // let temp = {}
-            // loginHandler(action.loginData).then( res => {
-            //     temp = { data: res.data.jwt_token }
-            //     console.log(temp);
-            // });
-
-            console.log(action.token);
-            return { isLoggedIn: true, };
+            return {
+                isLoggedIn: true,
+                token: action.data.token,
+                username: action.data.user,
+            };
 
         case 'logout':
-            console.log(action);
-            return false;
+            localStorage.clear();
+            return { isLoggedIn: false, token: '' };
 
+        case 'locallogin':
+            // console.log(action);
+
+            return {
+                isLoggedIn: true,
+                token: action.data.token,
+                username: action.data.user,
+            };
         default:
             // console.log(action);
             throw new Error();
@@ -22,28 +29,3 @@ function authReducer(state, action) {
 }
 
 export default authReducer;
-
-
-
-
-// const loginHandler = (loginData) => {
-//     const user = {
-//         ...loginData,
-//         ttl: 3600
-//     }
-//     // console.log("loginHandler");
-
-//     try {
-//         const response = axios.post(
-//             'https://akademia108.pl/api/social-app/user/login',
-//             JSON.stringify(user),
-//             axiosConfig,
-//         )
-//         // console.log("loginHandler - try");
-
-//         return response;
-
-//     } catch (error) {
-//         console.log("error", error);
-//     }
-// }
