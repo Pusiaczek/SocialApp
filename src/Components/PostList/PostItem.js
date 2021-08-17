@@ -1,9 +1,34 @@
+import { useContext, useEffect, useState } from 'react';
 import styles from './PostItem.module.css';
+import AuthContext from '../../store/auth-context';
+import LikeItButton from '../LikeItButton/LikeItButton';
 
 function PostItem(props) {
     const months = ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'];
-    const postDate = new Date(props.item.created_at)
+    const postDate = new Date(props.item.created_at);
+    const context = useContext(AuthContext);
+    // const [likesArr, setLikesArr] = useState([]);
+    const [isLiked, setIsLiked] = useState(false);
 
+    // console.log(context.getUserInfo);
+
+
+    useEffect(() => {
+        if (context.isLoggedIn) {
+            const arr = props.item.likes.map(item => item.id)
+            // console.log("Ustawiamy czy zalajkowany");
+            // console.log('ids: ', arr);
+            // console.log('user id: ', context.userId);
+            // console.log('Includes: ', arr.includes(Number(context.userId)));
+
+            setIsLiked(arr.includes(Number(context.userId)));
+        }else{
+            setIsLiked(false);
+        }
+    }, [context.isLoggedIn, context.userId, props.item.likes])
+
+
+    
 
     return (
         <li className={styles.postItem}>
@@ -12,13 +37,7 @@ function PostItem(props) {
             </div>
             <div className={styles.postItemMessage}>
                 <p>{props.item.content}</p>
-                <div className={styles.likes}>
-                    {/* <span className={styles.likeBtn}>Like IT!</span><span className={styles.likeCounter}>{props.item.likes.length} <i className="fas fa-thumbs-up thumbsup"></i></span> */}
-                    <i className="fas fa-thumbs-up thumbsup"></i>
-                    <span className={styles.likeCounter}>
-                        {props.item.likes.length}
-                    </span>
-                </div>
+                <LikeItButton id={props.id} isLiked={isLiked} likesCount={props.item.likes.length} />
                 <div className={styles.signature}>
                     {`~${props.item.user.username}~ ${postDate.getDay()} ${months[postDate.getMonth()]} ${postDate.getFullYear()}`}
                 </div>

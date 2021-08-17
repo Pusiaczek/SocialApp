@@ -14,10 +14,11 @@ import Home from './Components/Home/Home';
 import SignUp from './Components/PopUp/SignUp';
 import Login from './Components/PopUp/Login';
 
-import getDefaultPosts from './Queries/getDefaultPosts';
+
 
 function App() {
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
+
   const [showSignUpPopUp, setShowSignUpPopUp] = useState(false);
   const context = useContext(AuthContext);
 
@@ -27,44 +28,46 @@ function App() {
   }
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
       context.onCheckLogin({
+        isLoggedIn: !!localStorage.getItem('token'),
         token: localStorage.getItem('token'),
-        user: localStorage.getItem('user')
+        user: localStorage.getItem('user'),
+        userId: localStorage.getItem('user_id')
       })
-    }
+    
 
-    getDefaultPosts().then(res => {
-      setPosts(res.data)
-    })
-
-    let timer =
-      setTimeout(() => {
-        setShowSignUpPopUp(true);
-      }, 5000)
+    let timer = setTimeout(() => {
+      setShowSignUpPopUp(true);
+    }, 500)
 
     return (() => clearTimeout(timer))
-  }, [context.isLoggedIn])
+  }, [])
+
+
+  // useEffect(() => {
+  //   context.onRefreshPosts();
+
+  // }, [context.isLoggedIn])
 
 
   return (
     <Router>
-        <Header />
-        <Switch>
-          <Route exact path='/'>
-            {!context.isLoggedIn && showSignUpPopUp && <SignUp close={closeSignUpPopUp} />}
-            <Home postsData={posts} />
-          </Route>
-          {/* <Route path='/logout'>
+      <Header />
+      <Switch>
+        <Route exact path='/'>
+          {!context.isLoggedIn && showSignUpPopUp && <SignUp close={closeSignUpPopUp} />}
+          <Home postsData={context.getPostsData} recommendSubsData={context.getRecommendSubsData} />
+        </Route>
+        {/* <Route path='/logout'>
               <Logout dispatch={dispatchLogin} isLogged={isLogged} />
             </Route> */}
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <Route path='/signup'>
+        <Route path='/login'>
+          <Login />
+        </Route>
+        <Route path='/signup'>
 
-          </Route>
-        </Switch>
+        </Route>
+      </Switch>
     </Router>
   );
 }

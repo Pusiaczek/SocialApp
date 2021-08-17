@@ -44,36 +44,3 @@
     /* text-align: right; */
     font-style: italic;
 }
-
-.postItem .likes {
-    position: absolute;    
-    font-size: 0.8rem;
-    padding: 0 8px ;
-    left: 10px;
-    bottom: -8px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    /* border: 1px solid white */
-    
-}
-
-/* .postItem .likeBtn {
-    margin-right: 5px;
-}
-
-.postItem .likeBtn:hover {
-    margin-right: 5px;
-    text-decoration: underline wheat;
-    cursor: pointer;
-    
-} */
-
-.postItem .likeCounter {
-    font-weight: 600;
-    margin-left: 5px;
-}
-
-.thumbsup {
-    /* font-size: 2.5rem; */
-    /* margin-right: 5px; */
-}
