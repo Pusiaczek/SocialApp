@@ -3,6 +3,8 @@ import axios from 'axios';
 
 
 const getDefaultPosts = async (token) => {
+    
+    
     const user = {
         token
     }

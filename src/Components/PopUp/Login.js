@@ -1,11 +1,13 @@
 import React, { useRef, useContext } from "react";
 import { Redirect } from "react-router-dom";
+import useHttp from "../../hooks/use-http";
 
 import AuthContext from "../../store/auth-context";
 import styles from './Login.module.css';
 
 function Login() {
     const context = useContext(AuthContext);
+    const onLogin = useHttp();
 
     const usernameInputRef = useRef(null);
     const passwordInputRef = useRef(null);
@@ -19,7 +21,8 @@ function Login() {
             password: passwordInputRef.current.value
         }
 
-        context.onLogin(loginData)
+        const loginResponse = onLogin(loginData, null);
+        // context.onLogin(loginData)
     }
 
 
